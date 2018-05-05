@@ -1,3 +1,2 @@
-# eagoauthentication
-Simple authentication service in GoLang
-# Whatsapp
+
+Simple  Whatsapp service in GoLang

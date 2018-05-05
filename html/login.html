@@ -1,0 +1,147 @@
+<html>
+
+<script>
+
+
+	function login(){
+//Visitor count
+                if(typeof(Storage) !== "undefined") {
+        if (localStorage.clickcount) {
+            localStorage.clickcount = Number(localStorage.clickcount)+1;
+        } else {
+            localStorage.clickcount = 1;
+        }
+         alert("You have visited this site " + localStorage.clickcount + " time(s).");
+       // document.getElementById("result").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+    } else {
+        document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+    }
+////login 
+
+		var uname = document.getElementById("uname").value;
+		var pass = document.getElementById("pass").value;
+		var values = localStorage.getItem("prefs");
+		var index = 0;
+		var temp = '';
+		var flag = 0;
+		var arr = [];
+//alert(values);
+		values= values.replace("[",'')
+		//alert("values"+values);
+		values= values.replace("]",'')
+		values = values.split(",")
+		//alert("values"+values)
+
+		
+                temp = values[index].replace(/"/g,'') //username
+				//alert("temp"+temp);
+		ps = values[index+1].replace(/"/g,'') //password
+		while(1){
+                         
+			if (temp == uname){
+				if(ps == pass){
+					flag = 1;
+					break;
+				}
+			}
+
+			else{
+				document.getElementById("emptyspace").innerHTML = "ERROR! WRONG USERNAME & PASSWORD!!!";
+				document.getElementById("emptyspace").style.color = "red";
+			}
+            //second user
+			index += 3;
+			temp = values[index].replace(/"/g,'')
+			//alert("temp"+temp);
+			ps = values[index+1].replace(/"/g,'')
+
+		}
+
+		if (flag == 1){
+			for(i=0;i<3;i++){
+				arr.push(values[index+i]);
+			}
+
+			testJS(arr)
+		}
+
+		else if(flag != 1){
+			arr = []
+		}
+
+	}//end of function
+
+
+//ajax
+function testJS(arr) {
+	var ourRequest = new XMLHttpRequest();
+	document.getElementById("emptyspace").innerHTML = "COMING";
+	
+	ourRequest.onreadystatechange = function() {
+
+			document.getElementById("emptyspace").innerHTML = this.status;
+			document.getElementById("emptyspace").style.color ="RED";
+                        
+
+    	if (this.readyState == 4 && this.status == 0) {
+			var url = 'Content.html?name=' + encodeURIComponent(arr);
+			document.location.href = url;
+	}
+	};
+
+	ourRequest.open("GET", "words.txt");
+    ourRequest.send();
+}
+
+
+</script>
+
+
+<style>
+
+body{
+  font-family: 'Open Sans', sans-serif;
+  background:aqua;
+  text-align:center;
+}
+
+h1{
+  font-size:2.5em;
+  color:#525252;
+}
+
+h2{
+  font-size:2em;
+  color:#525252;
+}
+
+</style>
+
+<ul>
+                    <li><a  href="main.html">Home</a></li>
+                    <li><a href="login.html">Sign In</a></li>
+                    <li><a href="register.html">Sign Up</a></li>
+</ul>
+                 
+<form method="post" action="index.html">
+<div class="box">
+
+	<br><br>
+	
+	<h2><font color='black'>Login Page</font></h2>
+	</b></u></i>
+
+Username: <input type="text" id="uname" value="" style="height: 30px; width:200px;"/><br><br>
+Password: <input type="password" id="pass" value=""  style="height: 30px; width:200px;"/>
+
+<br><br>
+<input type="button" onclick="login()" value="Login">
+<p id="result"></p>
+<p id="emptyspace"></p>
+
+
+</div>
+  
+</form>
+
+</html>
